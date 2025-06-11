@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':02-base')
+    implementation project(':02bc-helpers')
+}
