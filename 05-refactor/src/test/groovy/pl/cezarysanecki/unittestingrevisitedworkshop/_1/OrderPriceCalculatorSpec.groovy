@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class OrderPriceCalculatorSpec extends Specification {
     OrderRepository orderRepository = new InMemoryOrderRepository()
-    OrderPriceCalculator orderPriceCalculator = new OrderPriceCalculator(orderRepository)
+    OrderPriceCalculator orderPriceCalculator = new OrderPriceCalculator(orderRepository, new FixedExternalPriceCalculatorWrapper())
 
     def "should compute total order price #expectedPriceWithTax for single product of price #productPrice"() {
         given:
@@ -24,5 +24,12 @@ class OrderPriceCalculatorSpec extends Specification {
         productPrice | expectedPriceWithTax
         10.0d        | 10.0d * 1.23
         20.0d        | 20.0d * 1.23
+    }
+}
+
+class FixedExternalPriceCalculatorWrapper extends ExternalPriceCalculatorWrapper {
+    @Override
+    double computeFinalPrice(double price) {
+        return price * 1.23
     }
 }
