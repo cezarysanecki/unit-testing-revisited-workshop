@@ -112,4 +112,43 @@ class StatsFacadeSpec extends Specification {
         stats.views == views
         stats.likes == likes
     }
+
+    def "should ad-hoc update views and likes in the repository"() {
+        given:
+        def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174007")
+        def account = new Account(accountId, true)
+        def statsFacade = new StatsFacade(statsDownloader, statsRepository)
+        def views = 10
+        def likes = 5
+
+        when:
+        def stats = statsFacade.updateStatsAdHocFor(account, views, likes)
+
+        then:
+        stats == statsRepository.findByAccountId(accountId).get()
+        stats.accountId == accountId
+        stats.views == views
+        stats.likes == likes
+    }
+
+    def "should throw exception for invalid stats parameter: views #views, likes #likes"() {
+        given:
+        def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174007")
+        def account = new Account(accountId, true)
+        def statsFacade = new StatsFacade(statsDownloader, statsRepository)
+
+        when:
+        def stats = statsFacade.updateStatsAdHocFor(account, views, likes)
+
+        then:
+        thrown(IllegalArgumentException)
+
+        where:
+        views | likes
+        null  | 1
+        1     | null
+        -5    | 1 // Views < 0
+        5     | -10 // Likes < 0
+        5     | 100 // Likes > views
+    }
 }
