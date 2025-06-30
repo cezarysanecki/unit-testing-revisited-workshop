@@ -6,11 +6,12 @@ import lombok.RequiredArgsConstructor;
 public class OrderPriceCalculator {
 
     private final OrderRepository orderRepository;
+    private final PriceCalculator priceCalculator;
 
     public double computeFinalPriceFor(Long orderId) {
         Order order = orderRepository.findBy(orderId);
 
-        return ExternalPriceCalculator.computeFinalPrice(order.totalPrice());
+        return priceCalculator.computeFinalPrice(order.totalPrice());
     }
 
 }
