@@ -16,7 +16,7 @@ public class Stats {
     public Long views;
     public Long likes;
 
-    public Stats(Long views, Long id, UUID accountId, Long likes) {
+    public Stats(Long id, UUID accountId, Long views, Long likes) {
         this.views = views;
         this.id = id;
         this.accountId = accountId;
