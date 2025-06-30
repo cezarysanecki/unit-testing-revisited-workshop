@@ -22,7 +22,7 @@ class StatsFacadeGetStatisticsSpec extends Specification{
             def views = 1000
             def account = new Account(accountId, true)
             def statsFacade = new StatsFacade(statsDownloader, statsRepository)
-            statsRepository.save(new Stats(12L,likes, accountId, views ))
+            statsRepository.save(new Stats(12L,accountId, views, likes ))
 
         when:
             def stats = statsFacade.getStatsFor(account)
