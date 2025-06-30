@@ -16,7 +16,7 @@ class StatsFacadeSpec extends Specification {
     StatsRepository statsRepository = new InMemoryStatsRepository(() -> System.currentTimeMillis())
     StatsDownloader statsDownloader = new StatsDownloader(firstExternalSystem, secondExternalSystem, eventPublisher)
 
-    def "should return stats from existing statistics"() {
+    def "should return stats from existing statistics saved in repository"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174001")
         def likes = 100
@@ -34,7 +34,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should return stats from external statistics"() {
+    def "should return stats from external systems"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174002")
         def account = new Account(accountId, true)
@@ -53,7 +53,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should create stats when likes is null"() {
+    def "should create stats when likes are null"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174005")
         def account = new Account(accountId, true)
@@ -73,7 +73,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should create stats when views is null"() {
+    def "should create stats when views are null"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174006")
         def account = new Account(accountId, true)
@@ -131,7 +131,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should throw exception for invalid stats parameter: views #views, likes #likes"() {
+    def "should throw exception when updating stats for invalid parameters: views #views, likes #likes"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174007")
         def account = new Account(accountId, true)
