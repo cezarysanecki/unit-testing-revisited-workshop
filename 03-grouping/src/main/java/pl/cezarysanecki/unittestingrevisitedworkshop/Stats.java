@@ -9,25 +9,53 @@ import java.util.UUID;
 public class Stats {
 
     @Id
-    public Long id;
+    Long id;
 
-    public UUID accountId;
+    UUID accountId;
 
-    public Long views;
-    public Long likes;
-
-    public Stats(Long id, UUID accountId, Long views, Long likes) {
-        this.views = views;
-        this.id = id;
-        this.accountId = accountId;
-        this.likes = likes;
-    }
-
-    public Stats(UUID accountId) {
-        this.accountId = accountId;
-    }
+    Long views;
+    Long likes;
 
     public Stats() {
 
+    }
+
+    public Stats(Long id, UUID accountId, Long views, Long likes) {
+        this.id = id;
+        this.accountId = accountId;
+        this.views = views;
+        this.likes = likes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
     }
 }
