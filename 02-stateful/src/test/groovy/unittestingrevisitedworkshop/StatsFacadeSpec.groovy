@@ -1,12 +1,7 @@
 package unittestingrevisitedworkshop
 
-import pl.cezarysanecki.unittestingrevisitedworkshop.Account
-import pl.cezarysanecki.unittestingrevisitedworkshop.Stats
-import pl.cezarysanecki.unittestingrevisitedworkshop.StatsDownloader
-import pl.cezarysanecki.unittestingrevisitedworkshop.StatsFacade
-import pl.cezarysanecki.unittestingrevisitedworkshop.StatsRepository
+import pl.cezarysanecki.unittestingrevisitedworkshop.*
 import spock.lang.Specification
-
 
 class StatsFacadeSpec extends Specification {
     def "should return stats when account is found in repository"() {
@@ -25,5 +20,28 @@ class StatsFacadeSpec extends Specification {
 
         then:
         0 * statsDownloader.downloadStatsFor(any())
+    }
+
+    def "should download stats from external systems and update repository when account not found in repository"() {
+        given:
+        def accountId = UUID.randomUUID()
+        StatsRepository statsRepository = Mock(StatsRepository)
+        statsRepository.findByAccountId(accountId) >> Optional.empty()
+
+        def externalStats = new ExternalStats(accountId, 0, 0)
+        StatsDownloader statsDownloader = Mock(StatsDownloader)
+        statsDownloader.downloadStatsFor(accountId) >> externalStats
+
+        StatsFacade statsFacade = new StatsFacade(statsDownloader, statsRepository)
+        Account account = new Account(accountId, false)
+
+        when:
+        Stats stats = statsFacade.getStatsFor(account)
+
+        then:
+        // Tried downloading external stats
+        1 * statsDownloader.downloadStatsFor(accountId)
+        // Repository was updated
+        1 * statsRepository.save(any())
     }
 }
