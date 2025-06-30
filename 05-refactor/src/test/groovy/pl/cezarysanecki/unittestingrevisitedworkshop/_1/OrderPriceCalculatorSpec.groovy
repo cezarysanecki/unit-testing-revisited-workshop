@@ -25,6 +25,25 @@ class OrderPriceCalculatorSpec extends Specification {
         10.0d        | 10.0d * 1.23
         20.0d        | 20.0d * 1.23
     }
+
+    def "should compute total order price #expectedPriceWithTax for #productQuantity products of price #productPrice each"() {
+        given:
+        def orderId = 1234
+        Order.Product product = new Order.Product(0, productQuantity, productPrice)
+        Order order = new Order(orderId, [product])
+        orderRepository.save(order)
+
+        when:
+        double orderPrice = orderPriceCalculator.computeFinalPriceFor(orderId)
+
+        then:
+        orderPrice == expectedPriceWithTax
+
+        where:
+        productPrice | productQuantity | expectedPriceWithTax
+        10.0d        | 2               | 2 * 10.0d * 1.23
+        20.0d        | 3               | 3 * 20.0d * 1.23
+    }
 }
 
 class FixedExternalPriceCalculatorWrapper extends ExternalPriceCalculatorWrapper {
