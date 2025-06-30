@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 import java.util.UUID;
 
+// Download data from two external systems;
+// if they are inconsistent, send an inconsistent data event;
+// return data from the first system
 @Component
 @RequiredArgsConstructor
 public class StatsDownloader {
