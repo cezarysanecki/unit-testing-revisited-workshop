@@ -30,7 +30,7 @@ class VehicleServiceSpec extends Specification {
                 UUID.randomUUID(),
                 "Toyota",
                 "Camry",
-                2014, // 11 years old in 2025
+                2004, // 11 years old in 2025
                 "1HGBH41JXMN109186",
                 "Blue",
                 150000, // under 200k to avoid high mileage markup

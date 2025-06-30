@@ -6,6 +6,8 @@ import java.util.Set;
 
 public class VehicleService {
 
+    private static final Integer OLD_CAR_AGE = 20;
+
     private final Map<Parts, Double> partsPrices;
     private final DateProvider dateProvider;
 
@@ -31,7 +33,7 @@ public class VehicleService {
         LocalDate currentDate = dateProvider.getCurrentDate();
         int currentYear = currentDate.getYear();
 
-        boolean isOldCar = (currentYear - year) > 10;
+        boolean isOldCar = (currentYear - year) > OLD_CAR_AGE;
         boolean isYoungCar = (currentYear - year) < 3;
         boolean highMileage = mileage > 200_000;
         boolean inspectionExpired = lastInspection.isBefore(currentDate.minusYears(2));
