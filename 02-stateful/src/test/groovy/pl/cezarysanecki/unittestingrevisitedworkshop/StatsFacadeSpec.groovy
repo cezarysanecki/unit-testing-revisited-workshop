@@ -18,11 +18,11 @@ class StatsFacadeSpec extends Specification {
     def "should return stats from existing statistics"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174001")
-        def likes = 100
-        def views = 1000
+        def likes = 100L
+        def views = 1000L
         def account = new Account(accountId, true)
         def statsFacade = new StatsFacade(statsDownloader, statsRepository)
-        statsRepository.save(new Stats(12L,likes, accountId, views ))
+        statsRepository.save(new Stats(12L, accountId, views, likes ))
 
         when:
         def stats = statsFacade.getStatsFor(account)

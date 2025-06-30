@@ -127,7 +127,7 @@ class StatsFacadeSpec extends Specification {
             def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174011")
             def account = new Account(accountId, true)
             def statsFacade = new StatsFacade(statsDownloader, statsRepository)
-            statsRepository.save(new Stats(12L,likes, accountId, views ))
+            statsRepository.save(new Stats(12L, accountId, views, likes ))
 
         when:
             def stats = statsFacade.updateStatsAdHocFor(account, views * 2, likes * 2)
@@ -139,8 +139,8 @@ class StatsFacadeSpec extends Specification {
 
         where:
             likes | views
-            0     | 0
-            100   | 1000
+            0L     | 0L
+            100L   | 1000L
     }
 
     def "should update new created statistic when is not existing"() {
