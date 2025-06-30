@@ -6,7 +6,7 @@ import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemorySecondExter
 import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemoryStatsRepository
 import spock.lang.Specification
 
-class StatsFacadeUpdateStatisticSpec extends Specification {
+class UpdateStatisticStatsFacadeSpec extends Specification {
 
     FirstExternalSystem firstExternalSystem = new InMemoryFirstExternalSystem()
     SecondExternalSystem secondExternalSystem = new InMemorySecondExternalSystem()
