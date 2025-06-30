@@ -34,7 +34,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should return stats from external systems"() {
+    def "should retrieve external stats"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174002")
         def account = new Account(accountId, true)
@@ -53,7 +53,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should create stats when likes are null"() {
+    def "should retrieve external stats when likes are null"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174005")
         def account = new Account(accountId, true)
@@ -73,7 +73,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should create stats when views are null"() {
+    def "should retrieve external stats when views are null"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174006")
         def account = new Account(accountId, true)
@@ -93,7 +93,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should create stats when likes and views are null"() {
+    def "should retrieve external stats when likes and views are null"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174007")
         def account = new Account(accountId, true)
