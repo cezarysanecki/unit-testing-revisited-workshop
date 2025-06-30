@@ -15,7 +15,7 @@ class StatsFacadeSpec extends Specification {
     StatsRepository statsRepository = new InMemoryStatsRepository(() -> System.currentTimeMillis())
     StatsDownloader statsDownloader = new StatsDownloader(firstExternalSystem, secondExternalSystem, eventPublisher)
 
-    def "should return stats for existing statistics"() {
+    def "should return stats from existing statistics"() {
         given:
         def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174001")
         def likes = 100
@@ -33,7 +33,7 @@ class StatsFacadeSpec extends Specification {
         stats.likes == likes
     }
 
-    def "should return stats for non existing statistics"() {
+    def "should return stats from external statistics"() {
         given:
             def accountId = UUID.fromString("123e4567-e89b-12d3-a456-426614174002")
             def account = new Account(accountId, true)
