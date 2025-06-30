@@ -11,16 +11,17 @@ public class ParcelLocker {
 
     private User assignedTo;
     private Instant lockUntil;
-    private boolean wasProlonged;
+    private final Integer maximumProlongedAmount;
+    private Integer prolongedAmount = 0;
 
-    public ParcelLocker(User assignedTo, Instant lockUntil, boolean wasProlonged) {
+    public ParcelLocker(User assignedTo, Instant lockUntil, Integer maximumProlongedAmount) {
         this.assignedTo = assignedTo;
         this.lockUntil = lockUntil;
-        this.wasProlonged = wasProlonged;
+        this.maximumProlongedAmount = maximumProlongedAmount;
     }
 
-    public static ParcelLocker empty() {
-        return new ParcelLocker(null, null, false);
+    public static ParcelLocker empty(Integer maximumProlongedAmount) {
+        return new ParcelLocker(null, null, maximumProlongedAmount);
     }
 
     public void lockFor(User user, Instant now) {
@@ -30,7 +31,6 @@ public class ParcelLocker {
 
         this.assignedTo = user;
         this.lockUntil = now.plus(Period.ofDays(1));
-        this.wasProlonged = false;
     }
 
     public void prolong(Instant now) {
@@ -40,12 +40,12 @@ public class ParcelLocker {
         if (now.isAfter(this.lockUntil) || now.plus(Duration.ofMinutes(15)).isBefore(this.lockUntil)) {
             throw new IllegalStateException("It is too early to prolong parcel locker");
         }
-        if (this.wasProlonged) {
+        if (prolongedAmount >= maximumProlongedAmount) {
             throw new IllegalStateException("Parcel locker cannot be prolonged more than 1 time");
         }
 
         this.lockUntil = this.lockUntil.plus(Period.ofDays(1));
-        this.wasProlonged = true;
+        this.prolongedAmount += 1;
     }
 
     public void open(User user, Instant now) {
@@ -61,7 +61,6 @@ public class ParcelLocker {
     public void release() {
         this.assignedTo = null;
         this.lockUntil = null;
-        this.wasProlonged = false;
     }
 
 
