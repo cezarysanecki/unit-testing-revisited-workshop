@@ -1,14 +1,10 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop;
 
-import lombok.Data;
-import lombok.Getter;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.util.UUID;
 
-@Data
 @Entity
 public class Stats {
 
@@ -21,12 +17,45 @@ public class Stats {
     Long likes;
 
     public Stats() {
+
     }
 
-    public Stats(Long id, Long likes, UUID accountId, Long views) {
+    public Stats(Long id, UUID accountId, Long views, Long likes) {
         this.id = id;
-        this.likes = likes;
         this.accountId = accountId;
         this.views = views;
+        this.likes = likes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
     }
 }
