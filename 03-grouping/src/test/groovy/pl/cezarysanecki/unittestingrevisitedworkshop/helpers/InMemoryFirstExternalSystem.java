@@ -13,7 +13,7 @@ public class InMemoryFirstExternalSystem implements FirstExternalSystem {
     private static final Map<UUID, ExternalStats> STORE = new ConcurrentHashMap<>();
 
     @Override
-    public ExternalStats downloadStatsFor(UUID accountId, boolean premium) {
+    public ExternalStats downloadStatsFor(UUID accountId) {
         return STORE.get(accountId);
     }
 

@@ -22,16 +22,16 @@ public class InMemoryStatsRepository implements StatsRepository {
     @Override
     public Optional<Stats> findByAccountId(UUID accountId) {
         return STORE.values().stream()
-                .filter(stats -> stats.accountId.equals(accountId))
+                .filter(stats -> stats.getAccountId().equals(accountId))
                 .findFirst();
     }
 
     @Override
     public Stats save(Stats entity) {
-        if (entity.id == null) {
-            entity.id = idGenerator.get();
+        if (entity.getId() == null) {
+            entity.setId(idGenerator.get());
         }
-        STORE.put(entity.id, entity);
+        STORE.put(entity.getId(), entity);
         return entity;
     }
 

@@ -1,10 +1,14 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop;
 
+import lombok.Data;
+import lombok.Getter;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.util.UUID;
 
+@Data
 @Entity
 public class Stats {
 
