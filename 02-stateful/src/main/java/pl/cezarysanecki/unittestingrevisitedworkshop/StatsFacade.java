@@ -14,7 +14,7 @@ public class StatsFacade {
     @Transactional
     public Stats getStatsFor(Account account) {
         Stats stats = statsRepository.findByAccountId(account.id()).orElseGet(() -> {
-            Stats newStats = new Stats();
+            Stats newStats = new Stats(account.id());
             newStats.accountId = account.id();
             return newStats;
         });

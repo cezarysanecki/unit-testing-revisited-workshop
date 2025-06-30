@@ -16,4 +16,14 @@ public class Stats {
     public Long views;
     public Long likes;
 
+    public Stats(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public Stats(Long id, UUID accountId, Long views, Long likes) {
+        this.id = id;
+        this.accountId = accountId;
+        this.views = views;
+        this.likes = likes;
+    }
 }
