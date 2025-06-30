@@ -30,11 +30,10 @@ public class ParcelLocker {
         this.lockUntil = Instant.now().plus(Period.ofDays(1));
     }
 
-    public void prolong() {
+    public void prolong(Instant now) {
         if (this.assignedTo == null) {
             throw new IllegalStateException("Parcel locker is not locked");
         }
-        Instant now = Instant.now();
         if (now.isAfter(this.lockUntil) || now.plus(Duration.ofMinutes(15)).isBefore(this.lockUntil)) {
             throw new IllegalStateException("It is too early to prolong parcel locker");
         }
