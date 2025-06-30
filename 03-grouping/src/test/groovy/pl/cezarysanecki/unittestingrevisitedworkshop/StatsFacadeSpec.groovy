@@ -170,7 +170,7 @@ class StatsFacadeSpec extends Specification {
             def statsFacade = new StatsFacade(statsDownloader, statsRepository)
 
         when:
-            statsFacade.updateStatsAdHocFor(account, -views, -likes)
+            statsFacade.updateStatsAdHocFor(account, views, likes)
 
         then:
             thrown(IllegalArgumentException)
