@@ -3,12 +3,15 @@ package pl.cezarysanecki.unittestingrevisitedworkshop
 import spock.lang.Specification
 
 class DriverLicenseSpec extends Specification {
-    def "should create driver license with valid license number"() {
+    def "should create driver license with valid license number #license"() {
         when:
-        def license = DriverLicense.withLicense("ABCDE12")
+        def driverLicense = DriverLicense.withLicense("ABCDE12")
 
         then:
-        license.print() == "ABCDE12"
+        driverLicense.print() == license
+
+        where:
+        license << ["ABCDE12", "KRAKO45"]
     }
 
     def "should fail when license does not match required pattern"() {
