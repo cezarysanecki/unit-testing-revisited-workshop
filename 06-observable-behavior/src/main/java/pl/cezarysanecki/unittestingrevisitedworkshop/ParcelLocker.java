@@ -1,12 +1,9 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop;
 
-import lombok.Getter;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.time.Period;
 
-@Getter
 public class ParcelLocker {
 
     private User assignedTo;
@@ -64,5 +61,15 @@ public class ParcelLocker {
         this.wasProlonged = false;
     }
 
+    public User getAssignedTo() {
+        return assignedTo;
+    }
 
+    public Instant getLockUntil() {
+        return lockUntil;
+    }
+
+    public boolean isWasProlonged() {
+        return wasProlonged;
+    }
 }

@@ -1,15 +1,18 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class StatsFacade {
 
     private final StatsDownloader statsDownloader;
     private final StatsRepository statsRepository;
+
+    public StatsFacade(StatsDownloader statsDownloader, StatsRepository statsRepository) {
+        this.statsDownloader = statsDownloader;
+        this.statsRepository = statsRepository;
+    }
 
     @Transactional
     public Stats getStatsFor(Account account) {
