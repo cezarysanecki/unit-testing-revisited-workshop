@@ -8,29 +8,29 @@ import java.util.UUID;
 @Component
 public class StatsDownloader {
 
-    private final FirstExternalSystem firstExternalSystem;
-    private final SecondExternalSystem secondExternalSystem;
+    private final ImportantStatsSystem importantStatsSystem;
+    private final AdditionalStatsSystem additionalStatsSystem;
     private final EventPublisher eventPublisher;
 
-    public StatsDownloader(FirstExternalSystem firstExternalSystem, SecondExternalSystem secondExternalSystem, EventPublisher eventPublisher) {
-        this.firstExternalSystem = firstExternalSystem;
-        this.secondExternalSystem = secondExternalSystem;
+    public StatsDownloader(ImportantStatsSystem importantStatsSystem, AdditionalStatsSystem additionalStatsSystem, EventPublisher eventPublisher) {
+        this.importantStatsSystem = importantStatsSystem;
+        this.additionalStatsSystem = additionalStatsSystem;
         this.eventPublisher = eventPublisher;
     }
 
     public ExternalStats downloadStatsFor(UUID accountId) {
-        var firstStats = firstExternalSystem.downloadStatsFor(accountId);
-        var secondStats = secondExternalSystem.downloadStatsFor(accountId);
+        var importantStats = importantStatsSystem.downloadStatsFor(accountId);
+        var additionalStats = additionalStatsSystem.downloadStatsFor(accountId);
 
-        if (!Objects.equals(firstStats.views(), secondStats.views())
-                || !Objects.equals(firstStats.likes(), secondStats.likes())) {
-            eventPublisher.publish(new InconsistentData(accountId));
+        if (!Objects.equals(importantStats.views(), additionalStats.views())
+                || !Objects.equals(importantStats.likes(), additionalStats.likes())) {
+            eventPublisher.publish(new InconsistentDataEvent(accountId));
         }
 
         return new ExternalStats(
                 accountId,
-                firstStats.views(),
-                firstStats.likes()
+                importantStats.views(),
+                importantStats.likes()
         );
     }
 

@@ -1,14 +1,13 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop.helpers;
 
 import pl.cezarysanecki.unittestingrevisitedworkshop.ExternalStats;
-import pl.cezarysanecki.unittestingrevisitedworkshop.FirstExternalSystem;
-import pl.cezarysanecki.unittestingrevisitedworkshop.SecondExternalSystem;
+import pl.cezarysanecki.unittestingrevisitedworkshop.AdditionalStatsSystem;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemorySecondExternalSystem implements SecondExternalSystem {
+public class InMemoryAdditionalStatsSystem implements AdditionalStatsSystem {
 
     private static final Map<UUID, ExternalStats> STORE = new ConcurrentHashMap<>();
 

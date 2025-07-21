@@ -16,18 +16,18 @@ public class StatsFacade {
 
     @Transactional
     public Stats getStatsFor(Account account) {
+        ExternalStats externalStats = statsDownloader.downloadStatsFor(account.id());
+
         Stats stats = statsRepository.findByAccountId(account.id()).orElseGet(() -> {
             Stats newStats = new Stats();
             newStats.accountId = account.id();
             return newStats;
         });
 
-        if (stats.views == null || stats.likes == null) {
-            ExternalStats externalStats = statsDownloader.downloadStatsFor(account.id());
-            stats.views = externalStats.views();
-            stats.likes = externalStats.likes();
-            stats = statsRepository.save(stats);
-        }
+        stats.views = externalStats.views();
+        stats.likes = externalStats.likes();
+
+        stats = statsRepository.save(stats);
 
         return stats;
     }

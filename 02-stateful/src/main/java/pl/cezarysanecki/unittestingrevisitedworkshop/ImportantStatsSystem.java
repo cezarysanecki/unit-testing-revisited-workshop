@@ -2,6 +2,6 @@ package pl.cezarysanecki.unittestingrevisitedworkshop;
 
 import java.util.UUID;
 
-public interface SecondExternalSystem {
+public interface ImportantStatsSystem {
     ExternalStats downloadStatsFor(UUID accountId);
 }
