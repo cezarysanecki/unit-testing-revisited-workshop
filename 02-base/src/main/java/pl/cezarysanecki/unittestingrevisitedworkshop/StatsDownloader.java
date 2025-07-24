@@ -10,9 +10,13 @@ public class StatsDownloader {
 
     private final ImportantStatsSystem importantStatsSystem;
     private final AdditionalStatsSystem additionalStatsSystem;
-    private final EventPublisher eventPublisher;
+    private final EventPublisher<InconsistentDataEvent> eventPublisher;
 
-    public StatsDownloader(ImportantStatsSystem importantStatsSystem, AdditionalStatsSystem additionalStatsSystem, EventPublisher eventPublisher) {
+    public StatsDownloader(
+            ImportantStatsSystem importantStatsSystem,
+            AdditionalStatsSystem additionalStatsSystem,
+            EventPublisher<InconsistentDataEvent> eventPublisher
+    ) {
         this.importantStatsSystem = importantStatsSystem;
         this.additionalStatsSystem = additionalStatsSystem;
         this.eventPublisher = eventPublisher;
