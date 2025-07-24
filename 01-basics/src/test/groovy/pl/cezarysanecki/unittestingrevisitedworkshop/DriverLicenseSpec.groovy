@@ -2,8 +2,8 @@ package pl.cezarysanecki.unittestingrevisitedworkshop
 
 import spock.lang.Specification
 
-class StatsFacadeSpec extends Specification {
+class DriverLicenseSpec extends Specification {
 
-
+    // Write tests here...
 
 }
