@@ -1,0 +1,3 @@
+dependencies {
+    project ':02-base'
+}
