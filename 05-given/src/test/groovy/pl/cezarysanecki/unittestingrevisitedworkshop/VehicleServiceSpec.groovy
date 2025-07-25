@@ -8,16 +8,17 @@ import static pl.cezarysanecki.unittestingrevisitedworkshop.Parts.*
 
 class VehicleServiceSpec extends Specification {
 
-    Map<Parts, Double> EXAMPLE_PARTS_PRICES = Map.of(
+    private static final LocalDate CURRENT_DATE = LocalDate.of(2020, 10, 15)
+    private static final Map<Parts, Double> EXAMPLE_PARTS_PRICES = Map.of(
             ENGINE, 5_000.0d,
             GEARBOX, 4_000.0d,
             SUSPENSION, 10_000.0d,
             PAINT, 1_000.0d,
     )
 
-    LocalDate CURRENT_DATE = LocalDate.now()
+    def dateProvider = new FakeDateProvider(CURRENT_DATE)
 
-    FakeDateProvider dateProvider = new FakeDateProvider(CURRENT_DATE)
+    def sut = new VehicleService(dateProvider, EXAMPLE_PARTS_PRICES)
 
     def "take into account discount for all damaged parts"() {
 

@@ -11,6 +11,6 @@ public record ServiceResult(
 ) {
     enum Status {
         SUCCESS,
-        FAILURE
+        REJECTED
     }
 }

@@ -40,7 +40,7 @@ public class VehicleService {
         boolean isYoungCar = (currentYear - year) < 3;
         boolean highMileage = mileage >= 200_000;
         boolean inspectionExpired = lastInspection.isBefore(currentDate.minusYears(2));
-        boolean allPartsDamaged = damaged.containsAll(Set.of(Parts.values()));
+        boolean allPartsDamaged = Parts.isAll(damaged);
         boolean isIncreasedRiskMake = INCREASED_RISK_MAKES.contains(vehicle.make());
 
         double total = 0;

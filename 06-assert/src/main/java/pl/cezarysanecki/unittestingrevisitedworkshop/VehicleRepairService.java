@@ -2,12 +2,18 @@ package pl.cezarysanecki.unittestingrevisitedworkshop;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static pl.cezarysanecki.unittestingrevisitedworkshop.ServiceResult.Status.REJECTED;
 import static pl.cezarysanecki.unittestingrevisitedworkshop.ServiceResult.Status.SUCCESS;
 
 public class VehicleRepairService {
+
+    private static final List<String> INCREASED_RISK_MAKES = List.of(
+            "AUDI", "BMW"
+    );
 
     private final Map<Parts, Double> partsPrices;
     private final DateProvider dateProvider;
@@ -26,37 +32,47 @@ public class VehicleRepairService {
         this.dateProvider = dateProvider;
     }
 
-    public ServiceResult calculateTotalRepairCost(Vehicle vehicle) {
+    public ServiceResult prepareRepairEvaluation(Vehicle vehicle) {
         int year = vehicle.year();
-        int mileage = vehicle.mileage();
-        LocalDate lastInspection = vehicle.lastInspectionDate();
-        Set<Parts> acceptedParts = new HashSet<>(vehicle.damagedParts());
+        Set<Parts> damaged = vehicle.damagedParts();
         LocalDate currentDate = dateProvider.getCurrentDate();
         int currentYear = currentDate.getYear();
 
         boolean isOldCar = (currentYear - year) > 10;
-        boolean isYoungCar = (currentYear - year) < 3;
-        boolean highMileage = mileage > 200_000;
+        boolean isIncreasedRiskMake = INCREASED_RISK_MAKES.contains(vehicle.make());
 
-        if (isOldCar) {
-            acceptedParts.remove(Parts.ENGINE);
+        if (isIncreasedRiskMake) {
+            return new ServiceResult(
+                    vehicle.id(),
+                    0.0d,
+                    Set.of(),
+                    REJECTED
+            );
         }
-        if (!isYoungCar && highMileage) {
-            acceptedParts.remove(Parts.SUSPENSION);
+
+        Set<Parts> acceptedParts = new HashSet<>();
+
+        for (Parts damagedPart : damaged) {
+            if (isOldCar && damagedPart == Parts.ENGINE) {
+                continue;
+            }
+
+            acceptedParts.add(damagedPart);
         }
 
         double total = acceptedParts.stream()
-                .map(part -> partsPrices.getOrDefault(part, 0.0))
-                .reduce(0.0, Double::sum);
+                .map(acceptedPart -> partsPrices.getOrDefault(acceptedPart, 0.0d))
+                .reduce(0.0d, Double::sum);
 
-        if (currentDate.minusMonths(6).isBefore(lastInspection)) {
-            total -= total * 0.15;
+        boolean allPartsAccepted = Parts.isAll(acceptedParts);
+        if (allPartsAccepted) {
+            total *= 0.9;
         }
 
         return new ServiceResult(
                 vehicle.id(),
                 total,
-                new HashSet<>(acceptedParts),
+                acceptedParts,
                 SUCCESS
         );
     }
