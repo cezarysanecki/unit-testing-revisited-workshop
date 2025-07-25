@@ -1,4 +1,0 @@
-dependencies {
-    testImplementation 'net.jqwik:jqwik-api:1.9.3'
-    testImplementation 'net.jqwik:jqwik-engine:1.9.3'
-}
