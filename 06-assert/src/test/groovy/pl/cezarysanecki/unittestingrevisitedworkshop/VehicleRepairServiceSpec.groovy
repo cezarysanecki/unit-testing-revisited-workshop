@@ -23,7 +23,7 @@ class VehicleRepairServiceSpec extends Specification {
 
     def sut = new VehicleRepairService(dateProvider, EXAMPLE_PARTS_PRICES)
 
-    def "reject repairing of increased risk make"() {
+    def "reject repairing damaged parts of increased risk vehicle make"() {
 
     }
 
