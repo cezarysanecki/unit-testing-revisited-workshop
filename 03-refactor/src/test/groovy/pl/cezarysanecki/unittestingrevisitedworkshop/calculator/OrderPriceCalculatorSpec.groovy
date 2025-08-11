@@ -4,6 +4,6 @@ import spock.lang.Specification
 
 class OrderPriceCalculatorSpec extends Specification {
 
-    OrderPriceCalculator sut
+    // Write tests here...
 
 }

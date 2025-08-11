@@ -4,6 +4,6 @@ import spock.lang.Specification
 
 class ParcelLockerSpec extends Specification {
 
-    ParcelLocker sut
+    // Write tests here...
 
 }
