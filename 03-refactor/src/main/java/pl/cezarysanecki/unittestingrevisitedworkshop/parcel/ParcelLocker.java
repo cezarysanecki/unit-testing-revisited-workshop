@@ -32,7 +32,10 @@ public class ParcelLocker {
             throw new IllegalStateException("Parcel locker is not locked");
         }
         Instant now = Instant.now();
-        if (now.isAfter(this.lockUntil) || now.plus(Duration.ofMinutes(15)).isBefore(this.lockUntil)) {
+        if (now.isAfter(this.lockUntil)) {
+            throw new IllegalStateException("It is too late to prolong parcel locker");
+        }
+        if (now.plus(Duration.ofMinutes(15)).isBefore(this.lockUntil)) {
             throw new IllegalStateException("It is too early to prolong parcel locker");
         }
 
