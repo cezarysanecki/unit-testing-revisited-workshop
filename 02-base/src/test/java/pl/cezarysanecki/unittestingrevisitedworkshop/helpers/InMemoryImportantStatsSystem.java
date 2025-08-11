@@ -1,7 +1,14 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop.helpers;
 
+//import pl.cezarysanecki.unittestingrevisitedworkshop.ExternalStats;
+//import pl.cezarysanecki.unittestingrevisitedworkshop.ImportantStatsSystem;
+//
+//import java.util.Map;
+//import java.util.UUID;
+//import java.util.concurrent.ConcurrentHashMap;
+//
 // TODO: Uncomment this when you will be working on this task :)
-
+//
 //public class InMemoryImportantStatsSystem implements ImportantStatsSystem {
 //
 //    private static final Map<UUID, ExternalStats> STORE = new ConcurrentHashMap<>();
