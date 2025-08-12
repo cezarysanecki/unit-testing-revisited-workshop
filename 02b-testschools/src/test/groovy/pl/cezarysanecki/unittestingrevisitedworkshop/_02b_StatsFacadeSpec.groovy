@@ -6,29 +6,54 @@ class _02b_StatsFacadeSpec extends Specification {
 
     def importantStatsSystem = Mock(ImportantStatsSystem)
     def additionalStatsSystem = Mock(AdditionalStatsSystem)
-    def eventPublisher = Mock(EventPublisher)
+    def statsRepository = Mock(StatsRepository)
+    def eventPublisher = Mock(EventPublisher<InconsistentDataEvent>)
 
-    StatsRepository repository = Mock(StatsRepository)
-    StatsDownloader downloader = new StatsDownloader(importantStatsSystem, additionalStatsSystem, eventPublisher)
-    StatsFacade statsFacade = new StatsFacade(downloader, repository)
+    def statsDownloader = new StatsDownloader(
+            importantStatsSystem,
+            additionalStatsSystem,
+            eventPublisher
+    )
 
-    def "should create stats in the repository using the external stats"() {
-        given: "external system returns the current stats for the account"
-        downloader.downloadStatsFor(_ as UUID, _ as boolean) >> new ExternalStats(EXAMPLE_UUID, 1, 2)
+    def sut = new StatsFacade(
+            statsDownloader,
+            statsRepository
+    )
 
-        and: "repository doesn't contain the stats for the account"
-        repository.findByAccountId(EXAMPLE_UUID) >> Optional.empty()
+    private static final ACCOUNT = new Account(UUID.randomUUID(), true)
 
-        and:
-        Account account = new Account(EXAMPLE_UUID, false)
+    def "receive stats have consistent values with external systems"() {
+        given:
+        importantStatsSystem.downloadStatsFor(ACCOUNT.id(), ACCOUNT.premium()) >> new ExternalStats(ACCOUNT.id(), 100, 20)
+        additionalStatsSystem.downloadStatsFor((ACCOUNT.id())) >> new ExternalStats(ACCOUNT.id(), 100, 20)
+        statsRepository.save(_ as Stats) >> { Stats stats ->
+            return stats
+        }
+        statsRepository.findByAccountId(ACCOUNT.id()) >> Optional.empty()
 
         when:
-        statsFacade.getStatsFor(account)
+        def result = sut.getStatsFor(ACCOUNT)
 
         then:
-        1 * repository.save({ it.views == 1 && it.likes == 2 && it.accountId == EXAMPLE_UUID })
+        result.accountId
+        result.views == 100
+        result.likes == 20
     }
 
-    private static final UUID EXAMPLE_UUID = UUID.randomUUID()
+    def "inform about inconsistency in external systems"() {
+        given:
+        importantStatsSystem.downloadStatsFor(ACCOUNT.id(), ACCOUNT.premium()) >> new ExternalStats(ACCOUNT.id(), 100, 20)
+        additionalStatsSystem.downloadStatsFor((ACCOUNT.id())) >> new ExternalStats(ACCOUNT.id(), 100, 30)
+        statsRepository.save(_ as Stats) >> { Stats stats ->
+            return stats
+        }
+        statsRepository.findByAccountId(ACCOUNT.id()) >> Optional.empty()
+
+        when:
+        sut.getStatsFor(ACCOUNT)
+
+        then:
+        1 * eventPublisher.publish(new InconsistentDataEvent(ACCOUNT.id()))
+    }
 
 }

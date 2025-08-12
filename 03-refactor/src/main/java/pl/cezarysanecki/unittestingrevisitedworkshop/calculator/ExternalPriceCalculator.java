@@ -1,6 +1,6 @@
 package pl.cezarysanecki.unittestingrevisitedworkshop.calculator;
 
-public final class ExternalPriceCalculator {
+public final class ExternalPriceCalculator implements PriceCalculator {
 
     public static double computeFinalPrice(double price) {
         try {

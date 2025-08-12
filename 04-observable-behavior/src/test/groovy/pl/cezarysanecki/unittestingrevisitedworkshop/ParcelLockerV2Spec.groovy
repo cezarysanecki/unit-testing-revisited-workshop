@@ -22,7 +22,7 @@ class ParcelLockerV2Spec extends Specification {
         then:
         parcelLocker.getAssignedTo() == aClient
         parcelLocker.getLockUntil() == NOW + Period.ofDays(1)
-        !parcelLocker.wasProlonged
+        parcelLocker.prolonged() == 0
     }
 
     def "open locker for user in valid time"() {
@@ -35,7 +35,7 @@ class ParcelLockerV2Spec extends Specification {
         then:
         parcelLocker.getAssignedTo() == null
         parcelLocker.getLockUntil() == null
-        !parcelLocker.wasProlonged
+        parcelLocker.prolonged() == 0
     }
 
     def "prolong locker for user"() {
@@ -48,7 +48,7 @@ class ParcelLockerV2Spec extends Specification {
         then:
         parcelLocker.getAssignedTo() == aClient
         parcelLocker.getLockUntil() == NOW + Period.ofDays(2)
-        parcelLocker.wasProlonged
+        parcelLocker.prolonged() == 1
     }
 
 }
