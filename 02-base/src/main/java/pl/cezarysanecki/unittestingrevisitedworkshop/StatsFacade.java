@@ -16,7 +16,7 @@ public class StatsFacade {
 
     @Transactional
     public Stats getStatsFor(Account account) {
-        ExternalStats externalStats = statsDownloader.downloadStatsFor(account.id());
+        ExternalStats externalStats = statsDownloader.downloadStatsFor(account.id(), account.premium());
 
         Stats stats = statsRepository.findByAccountId(account.id()).orElseGet(() -> {
             Stats newStats = new Stats();
