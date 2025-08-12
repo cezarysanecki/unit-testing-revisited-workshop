@@ -42,7 +42,7 @@ class _02b_StatsFacadeSpec extends Specification {
 
     def "inform about inconsistency in external systems"() {
         given:
-        importantStatsSystem.downloadStatsFor(ACCOUNT.id()) >> new ExternalStats(ACCOUNT.id(), 100, 20)
+        importantStatsSystem.downloadStatsFor(ACCOUNT.id(), ACCOUNT.premium()) >> new ExternalStats(ACCOUNT.id(), 100, 20)
         additionalStatsSystem.downloadStatsFor((ACCOUNT.id())) >> new ExternalStats(ACCOUNT.id(), 100, 30)
         statsRepository.save(_ as Stats) >> { Stats stats ->
             return stats
