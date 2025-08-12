@@ -22,8 +22,8 @@ public class StatsDownloader {
         this.eventPublisher = eventPublisher;
     }
 
-    public ExternalStats downloadStatsFor(UUID accountId) {
-        var importantStats = importantStatsSystem.downloadStatsFor(accountId);
+    public ExternalStats downloadStatsFor(UUID accountId, boolean premium) {
+        var importantStats = importantStatsSystem.downloadStatsFor(accountId, premium);
         var additionalStats = additionalStatsSystem.downloadStatsFor(accountId);
 
         if (!Objects.equals(importantStats.views(), additionalStats.views())
