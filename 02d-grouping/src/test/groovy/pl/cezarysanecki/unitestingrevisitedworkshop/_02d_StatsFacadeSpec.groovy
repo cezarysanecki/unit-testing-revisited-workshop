@@ -1,5 +1,6 @@
 package pl.cezarysanecki.unitestingrevisitedworkshop
 
+import pl.cezarysanecki.unittestingrevisitedworkshop.Account
 import pl.cezarysanecki.unittestingrevisitedworkshop.InconsistentDataEvent
 import pl.cezarysanecki.unittestingrevisitedworkshop.StatsDownloader
 import pl.cezarysanecki.unittestingrevisitedworkshop.StatsFacade
@@ -11,6 +12,8 @@ import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.SimpleIdGenerator
 import spock.lang.Specification
 
 class _02d_StatsFacadeSpec extends Specification {
+
+    private static final def anAccount = new Account(UUID.randomUUID(), true)
 
     def idGenerator = new SimpleIdGenerator()
 

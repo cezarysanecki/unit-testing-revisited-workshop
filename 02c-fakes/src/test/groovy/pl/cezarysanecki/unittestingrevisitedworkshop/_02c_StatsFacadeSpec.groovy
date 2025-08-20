@@ -5,6 +5,8 @@ import spock.lang.Specification
 
 class _02c_StatsFacadeSpec extends Specification {
 
+    private static final def anAccount = new Account(UUID.randomUUID(), true)
+
     def idGenerator = new SimpleIdGenerator()
 
     def statsRepository = new InMemoryStatsRepository(() -> idGenerator.nextId())
