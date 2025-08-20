@@ -18,20 +18,19 @@ public class ParcelLocker {
         return new ParcelLocker(null, null);
     }
 
-    public void lockFor(User user) {
+    public void lockFor(User user, Instant now) {
         if (this.assignedTo != null) {
             throw new IllegalStateException("Parcel locker is already locked for user");
         }
 
         this.assignedTo = user;
-        this.lockUntil = Instant.now().plus(Period.ofDays(1));
+        this.lockUntil = now.plus(Period.ofDays(1));
     }
 
-    public void prolong() {
+    public void prolong(Instant now) {
         if (this.assignedTo == null) {
             throw new IllegalStateException("Parcel locker is not locked");
         }
-        Instant now = Instant.now();
         if (now.isAfter(this.lockUntil)) {
             throw new IllegalStateException("It is too late to prolong parcel locker");
         }
@@ -42,11 +41,11 @@ public class ParcelLocker {
         this.lockUntil = this.lockUntil.plus(Period.ofDays(1));
     }
 
-    public void open(User user) {
+    public void open(User user, Instant now) {
         if (this.assignedTo == null || !this.assignedTo.equals(user)) {
             throw new IllegalStateException("Parcel locker is not locked for this user");
         }
-        if (Instant.now().isAfter(this.lockUntil)) {
+        if (now.isAfter(this.lockUntil)) {
             throw new IllegalStateException("Parcel locker is locked until " + this.lockUntil);
         }
         release();
