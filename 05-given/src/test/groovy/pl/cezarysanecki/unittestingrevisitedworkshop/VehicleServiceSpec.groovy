@@ -24,10 +24,6 @@ class VehicleServiceSpec extends Specification {
 
     def sut = new VehicleService(dateProvider, EXAMPLE_PARTS_PRICES)
 
-    def setup() {
-        dateProvider.setCurrentDate(CURRENT_DATE)
-    }
-
     def "take into account discount for all damaged parts"() {
         given:
         def vehicle = typicalAgedVehicle(CURRENT_DATE)
