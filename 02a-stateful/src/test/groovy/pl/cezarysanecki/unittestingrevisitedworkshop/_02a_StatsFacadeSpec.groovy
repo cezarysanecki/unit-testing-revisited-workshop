@@ -4,6 +4,8 @@ import spock.lang.Specification
 
 class _02a_StatsFacadeSpec extends Specification {
 
+    private static final def anAccount = new Account(UUID.randomUUID(), true)
+
     def statsDownload = Mock(StatsDownloader)
     def statsRepository = Mock(StatsRepository)
 
