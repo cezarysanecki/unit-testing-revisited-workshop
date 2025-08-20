@@ -4,6 +4,12 @@ import spock.lang.Specification
 
 class OrderPriceCalculatorSpec extends Specification {
 
-    // Write tests here...
+    def orderRepository = new InMemoryOrderRepository()
+
+    def sut = new OrderPriceCalculator(orderRepository)
+
+    def "calculate price of product taking into account tax"() {
+
+    }
 
 }
