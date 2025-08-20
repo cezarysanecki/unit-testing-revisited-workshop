@@ -14,7 +14,7 @@ class OrderPriceCalculatorSpec extends Specification {
 
     def sut = new OrderPriceCalculator(orderRepository, externalPriceCalculator)
 
-    def "calculate price of product taking into account tax"() {
+    def "calculate price of order taking into account tax"() {
         given:
         def order = new Order(12L, [
                 new Order.Product(133L, 10, 2.0),
