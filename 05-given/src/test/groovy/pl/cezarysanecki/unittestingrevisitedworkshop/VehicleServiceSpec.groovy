@@ -28,7 +28,7 @@ class VehicleServiceSpec extends Specification {
 
     }
 
-    def "take into account rise for high milage BMW vehicle"() {
+    def "take into account rise for high mileage BMW vehicle"() {
 
     }
 
