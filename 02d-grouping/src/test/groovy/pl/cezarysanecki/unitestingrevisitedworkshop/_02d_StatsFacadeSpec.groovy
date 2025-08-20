@@ -2,6 +2,7 @@ package pl.cezarysanecki.unitestingrevisitedworkshop
 
 import pl.cezarysanecki.unittestingrevisitedworkshop.Account
 import pl.cezarysanecki.unittestingrevisitedworkshop.InconsistentDataEvent
+import pl.cezarysanecki.unittestingrevisitedworkshop.Stats
 import pl.cezarysanecki.unittestingrevisitedworkshop.StatsDownloader
 import pl.cezarysanecki.unittestingrevisitedworkshop.StatsFacade
 import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemoryAdditionalStatsSystem
@@ -35,6 +36,14 @@ class _02d_StatsFacadeSpec extends Specification {
     }
 
     def "create account with downloaded stats when it does not exist"() {
+
+    }
+
+    def "allow to update stats adhoc"() {
+
+    }
+
+    def "do not allow to update stats adhoc when likes are greater than views"() {
 
     }
 
