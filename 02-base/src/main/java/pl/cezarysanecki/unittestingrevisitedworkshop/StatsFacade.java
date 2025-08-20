@@ -33,7 +33,7 @@ public class StatsFacade {
     }
 
 
-// TODO: Uncomment this when you will be working on this task :)
+// TODO: Uncomment this when you will be working on future task :)
 
 //    @Transactional
 //    public Stats updateStatsAdHocFor(Account account, Long views, Long likes) {
