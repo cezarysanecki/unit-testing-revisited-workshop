@@ -82,12 +82,4 @@ class _02d_StatsFacadeSpec extends Specification {
         thrown(IllegalArgumentException)
     }
 
-    def "allow to update stats adhoc"() {
-
-    }
-
-    def "do not allow to update stats adhoc when likes are greater than views"() {
-
-    }
-
 }
