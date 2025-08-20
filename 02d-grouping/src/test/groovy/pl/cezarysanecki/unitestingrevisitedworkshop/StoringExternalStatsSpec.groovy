@@ -1,19 +1,10 @@
 package pl.cezarysanecki.unitestingrevisitedworkshop
 
-import pl.cezarysanecki.unittestingrevisitedworkshop.Account
-import pl.cezarysanecki.unittestingrevisitedworkshop.ExternalStats
-import pl.cezarysanecki.unittestingrevisitedworkshop.InconsistentDataEvent
-import pl.cezarysanecki.unittestingrevisitedworkshop.Stats
-import pl.cezarysanecki.unittestingrevisitedworkshop.StatsDownloader
-import pl.cezarysanecki.unittestingrevisitedworkshop.StatsFacade
-import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemoryAdditionalStatsSystem
-import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemoryEventPublisher
-import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemoryImportantStatsSystem
-import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.InMemoryStatsRepository
-import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.SimpleIdGenerator
+import pl.cezarysanecki.unittestingrevisitedworkshop.*
+import pl.cezarysanecki.unittestingrevisitedworkshop.helpers.*
 import spock.lang.Specification
 
-class _02d_StatsFacadeSpec extends Specification {
+class StoringExternalStatsSpec extends Specification {
 
     private static final def anAccount = new Account(UUID.randomUUID(), true)
 
@@ -60,26 +51,6 @@ class _02d_StatsFacadeSpec extends Specification {
         then:
         result.views == 100
         result.likes == 20
-    }
-
-    def "allow to update stats adhoc"() {
-        given:
-        statsRepository.save(new Stats(anAccount.id(), 10, 2))
-
-        when:
-        def result = sut.updateStatsAdHocFor(anAccount, 200, 10)
-
-        then:
-        result.views == 200
-        result.likes == 10
-    }
-
-    def "do not allow to update stats adhoc when likes are greater than views"() {
-        when:
-        sut.updateStatsAdHocFor(anAccount, 200, 201)
-
-        then:
-        thrown(IllegalArgumentException)
     }
 
 }
