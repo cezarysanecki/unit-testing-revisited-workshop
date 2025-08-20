@@ -6,7 +6,7 @@ class TaxPercentSpec extends Specification {
 
 //    def "tax percent #percent% should be converted to decimal fraction equaled #decimalFraction"() {
 //        given:
-//        def tax = new TaxPercent(percent)
+//        def tax = new TaxPercent2(percent)
 //
 //        when:
 //        def result = tax.toDecimalFraction()
@@ -22,7 +22,7 @@ class TaxPercentSpec extends Specification {
 //
 //    def "print tax percent as rounded value with percent sign"() {
 //        given:
-//        def tax = new TaxPercent(10.237G)
+//        def tax = new TaxPercent2(10.237G)
 //
 //        when:
 //        def result = tax.toString()
@@ -33,7 +33,7 @@ class TaxPercentSpec extends Specification {
 //
 //    def "tax percent should be greater then zero"() {
 //        when:
-//        new TaxPercent(-1.0G)
+//        new TaxPercent2(-1.0G)
 //
 //        then:
 //        thrown(IllegalArgumentException)
