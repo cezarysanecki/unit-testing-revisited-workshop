@@ -15,7 +15,7 @@ class ParcelLockerV2Spec extends Specification {
 
     ParcelLockerV2 parcelLocker = ParcelLockerV2.empty()
 
-    def "lock locker for user"() {
+    def "parcel locker is assigned to user when it is locked for him"() {
         when:
         parcelLocker.lockFor(aClient, NOW)
 
@@ -25,7 +25,7 @@ class ParcelLockerV2Spec extends Specification {
         !parcelLocker.wasProlonged
     }
 
-    def "open locker for user in valid time"() {
+    def "can release parcel locker if it is assigned to user"() {
         given:
         parcelLocker.lockFor(aClient, NOW)
 
@@ -38,7 +38,7 @@ class ParcelLockerV2Spec extends Specification {
         !parcelLocker.wasProlonged
     }
 
-    def "prolong locker for user"() {
+    def "can prolong lock if user is in time window to be able to do this"() {
         given:
         parcelLocker.lockFor(aClient, NOW)
 
