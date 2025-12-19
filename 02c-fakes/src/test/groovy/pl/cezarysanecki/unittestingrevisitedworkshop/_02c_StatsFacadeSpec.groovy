@@ -28,11 +28,33 @@ class _02c_StatsFacadeSpec extends Specification {
     def sut = new StatsFacade(statsDownload, statsRepository)
 
     def "update stats for existing account using downloaded stats"() {
+        given:
+        importantStatsSystem.store(new ExternalStats(anAccount.id(), 100, 20))
+        and:
+        additionalStatsSystem.store(new ExternalStats(anAccount.id(), 100, 20))
+        and:
+        statsRepository.save(new Stats(anAccount.id(), 10, 2))
 
+        when:
+        def result = sut.getStatsFor(anAccount)
+
+        then:
+        result.views == 100
+        result.likes == 20
     }
 
     def "create account with downloaded stats when it does not exist"() {
+        given:
+        importantStatsSystem.store(new ExternalStats(anAccount.id(), 100, 20))
+        and:
+        additionalStatsSystem.store(new ExternalStats(anAccount.id(), 100, 20))
 
+        when:
+        def result = sut.getStatsFor(anAccount)
+
+        then:
+        result.views == 100
+        result.likes == 20
     }
 
 }
