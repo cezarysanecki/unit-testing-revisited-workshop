@@ -9,23 +9,26 @@ import java.time.Period
 class ParcelLockerV2Spec extends Specification {
 
     Instant NOW = Instant.now()
-    Instant BEFORE_END = Instant.now() + Period.ofDays(1) - Duration.ofMinutes(1)
+    Instant PRIOR_END = NOW + Period.ofDays(1)
+    Instant BEFORE_END = PRIOR_END - Duration.ofMinutes(1)
 
     User aClient = new User(UUID.randomUUID())
+    User aClient2 = new User(UUID.randomUUID())
 
     ParcelLockerV2 parcelLocker = ParcelLockerV2.empty()
 
-    def "parcel locker is assigned to user when it is locked for him"() {
-        when:
+    def "cannot lock for user when is already locked for other user"() {
+        given:
         parcelLocker.lockFor(aClient, NOW)
 
+        when:
+        parcelLocker.lockFor(aClient2, NOW + Duration.ofMinutes(5))
+
         then:
-        parcelLocker.getAssignedTo() == aClient
-        parcelLocker.getLockUntil() == NOW + Period.ofDays(1)
-        !parcelLocker.wasProlonged
+        thrown(IllegalStateException)
     }
 
-    def "can release parcel locker if it is assigned to user"() {
+    def "can lock locker for user when other user released locker"() {
         given:
         parcelLocker.lockFor(aClient, NOW)
 
@@ -33,22 +36,20 @@ class ParcelLockerV2Spec extends Specification {
         parcelLocker.open(aClient, BEFORE_END)
 
         then:
-        parcelLocker.getAssignedTo() == null
-        parcelLocker.getLockUntil() == null
-        !parcelLocker.wasProlonged
+        parcelLocker.lockFor(aClient2, BEFORE_END + Duration.ofMinutes(5))
     }
 
-    def "can prolong lock if user is in time window to be able to do this"() {
+    def "cannot lock for user when other user prolonged his lockage"() {
         given:
         parcelLocker.lockFor(aClient, NOW)
-
-        when:
+        and:
         parcelLocker.prolong(BEFORE_END)
 
+        when:
+        parcelLocker.lockFor(aClient2, PRIOR_END + Duration.ofMinutes(5))
+
         then:
-        parcelLocker.getAssignedTo() == aClient
-        parcelLocker.getLockUntil() == NOW + Period.ofDays(2)
-        parcelLocker.wasProlonged
+        thrown(IllegalStateException)
     }
 
 }
