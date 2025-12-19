@@ -4,10 +4,8 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-import static pl.cezarysanecki.unittestingrevisitedworkshop.Parts.ENGINE
-import static pl.cezarysanecki.unittestingrevisitedworkshop.Parts.GEARBOX
-import static pl.cezarysanecki.unittestingrevisitedworkshop.Parts.PAINT
-import static pl.cezarysanecki.unittestingrevisitedworkshop.Parts.SUSPENSION
+import static pl.cezarysanecki.unittestingrevisitedworkshop.Parts.*
+import static pl.cezarysanecki.unittestingrevisitedworkshop.VehicleTestBuilder.aVehicle
 
 class VehicleServiceSpec extends Specification {
 
@@ -24,15 +22,45 @@ class VehicleServiceSpec extends Specification {
     def sut = new VehicleService(dateProvider, EXAMPLE_PARTS_PRICES)
 
     def "take into account discount for all damaged parts"() {
+        given:
+        def vehicle = aVehicle()
+                .withDamagedParts(EnumSet.allOf(Parts.class))
+                .build()
 
+        when:
+        def result = sut.calculateTotalRepairCost(vehicle)
+
+        then:
+        result == 18_000.0d
     }
 
     def "take into account rise for expired inspection"() {
+        given:
+        def vehicle = aVehicle()
+                .withDamagedParts([GEARBOX].toSet())
+                .withLastInspectionDate(CURRENT_DATE.minusYears(3))
+                .build()
 
+        when:
+        def result = sut.calculateTotalRepairCost(vehicle)
+
+        then:
+        result == 4_200.0d
     }
 
     def "take into account rise for high mileage BMW vehicle"() {
+        given:
+        def vehicle = aVehicle()
+                .withMake("BMW")
+                .withDamagedParts([GEARBOX].toSet())
+                .withMileage(220_000)
+                .build()
 
+        when:
+        def result = sut.calculateTotalRepairCost(vehicle)
+
+        then:
+        result == 4_400.0d
     }
 
 }
