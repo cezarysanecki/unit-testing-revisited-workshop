@@ -33,30 +33,28 @@ public class StatsFacade {
     }
 
 
-// TODO: Uncomment this when you will be working on future task :)
+    @Transactional
+    public Stats updateStatsAdHocFor(Account account, Long views, Long likes) {
+        if (views == null || likes == null) {
+            throw new IllegalArgumentException("Views and likes must not be null");
+        }
+        if (views < 0 || likes < 0) {
+            throw new IllegalArgumentException("Views and likes must not be negative");
+        }
+        if (likes > views) {
+            throw new IllegalArgumentException("Likes cannot be greater than views");
+        }
 
-//    @Transactional
-//    public Stats updateStatsAdHocFor(Account account, Long views, Long likes) {
-//        if (views == null || likes == null) {
-//            throw new IllegalArgumentException("Views and likes must not be null");
-//        }
-//        if (views < 0 || likes < 0) {
-//            throw new IllegalArgumentException("Views and likes must not be negative");
-//        }
-//        if (likes > views) {
-//            throw new IllegalArgumentException("Likes cannot be greater than views");
-//        }
-//
-//        Stats stats = statsRepository.findByAccountId(account.id()).orElseGet(() -> {
-//            Stats newStats = new Stats();
-//            newStats.accountId = account.id();
-//            return newStats;
-//        });
-//
-//        stats.views = views;
-//        stats.likes = likes;
-//
-//        return statsRepository.save(stats);
-//    }
+        Stats stats = statsRepository.findByAccountId(account.id()).orElseGet(() -> {
+            Stats newStats = new Stats();
+            newStats.accountId = account.id();
+            return newStats;
+        });
+
+        stats.views = views;
+        stats.likes = likes;
+
+        return statsRepository.save(stats);
+    }
 
 }
